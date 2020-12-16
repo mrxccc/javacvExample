@@ -2,6 +2,7 @@ package cn.mrxccc.javacv.example;
 
 import org.bytedeco.javacv.CanvasFrame;
 import org.bytedeco.javacv.Frame;
+import org.bytedeco.javacv.OpenCVFrameConverter;
 import org.bytedeco.javacv.OpenCVFrameGrabber;
 import org.bytedeco.opencv.opencv_core.*;
 import org.bytedeco.opencv.opencv_objdetect.CascadeClassifier;
@@ -15,8 +16,10 @@ import static org.bytedeco.opencv.global.opencv_imgproc.*;
  * @create 2020/12/14
  */
 public class FaceDetectionTest {
+    public static OpenCVFrameConverter.ToIplImage converter = new OpenCVFrameConverter.ToIplImage();
+
     public static void main(String[] args) throws Exception, InterruptedException {
-        faceDetection("haarcascade_frontalface_alt.xml",960,540);
+        faceDetection("D:\\develop\\ideaWorkSpace\\myproject\\javacvExample\\src\\main\\java\\cn\\mrxccc\\javacv\\example\\haarcascade_frontalface_alt.xml",960,540);
     }
     /**
      * 人脸检测-eguid
@@ -53,7 +56,7 @@ public class FaceDetectionTest {
 
         for(;canvas.isVisible()&&(frame=grabber.grab())!=null;) {
 
-            Mat img = (Mat) frame.opaque;// 从frame中直接获取Mat
+            Mat img = converter.convertToMat(grabber.grabFrame());
 
             Mat grayImg = new Mat();//存放灰度图
             //摄像头色彩模式设置成ImageMode.Gray下不需要再做灰度
@@ -77,8 +80,7 @@ public class FaceDetectionTest {
                 // 在人脸矩形上方绘制提示文字
                 putText(img, "people face", new Point(pos_x, pos_y), FONT_HERSHEY_COMPLEX, 1.0,new Scalar(0, 0, 255, 2.0));
             }
-
-            canvas.showImage(frame);// 获取摄像头图像并放到窗口上显示，frame是一帧视频图像
+            canvas.showImage(converter.convert(img));// 获取摄像头图像并放到窗口上显示，frame是一帧视频图像
             Thread.sleep(40);// 40毫秒刷新一次图像
         }
         cascade.close();
