@@ -25,7 +25,7 @@ public class ImagePusher {
         imagePusher
                 // rtmp
 //                .to("rtmp://192.168.205.10:1935/stream/hello", imagePusher.grabber.getImageWidth(), imagePusher.grabber.getImageHeight())
-                .to("rtsp://localhost/testVideoStream", imagePusher.grabber.getImageWidth(), imagePusher.grabber.getImageHeight(), "rtsp")
+                .to("rtsp://10.199.1.210:554/testVideoStream", imagePusher.grabber.getImageWidth(), imagePusher.grabber.getImageHeight(), "rtsp")
                 .go(50000);
     }
 
@@ -68,12 +68,12 @@ public class ImagePusher {
         grabber.setVideoCodec(videoCodec);//使用avcodec中的编码常量，例如：avcodec.AV_CODEC_ID_NONE
 
         //grabber.setAudioCodec(audioCodec);//这个audioCodec字段在FFmpegFrameGrabber压根就没有用到，只用到了audioCodecName
-        grabber.setAudioCodecName(audioCodecName);//如果为空，会触发自动检索音频编码
+//        grabber.setAudioCodecName(audioCodecName);//如果为空，会触发自动检索音频编码
         /*设置下面三个参数会触发ffmpeg的swresample音频重采样*/
         //在对音频编码解码成pcm之后，如果sampleFormat与pcm不同，则会对音频采样格式进行转换
-        grabber.setSampleFormat(sampleFormat);//音频采样格式,使用avutil中的像素格式常量，例如：avutil.AV_SAMPLE_FMT_NONE
-        grabber.setAudioChannels(audioChannels);
-        grabber.setSampleRate(sampleRate);
+//        grabber.setSampleFormat(sampleFormat);//音频采样格式,使用avutil中的像素格式常量，例如：avutil.AV_SAMPLE_FMT_NONE
+//        grabber.setAudioChannels(audioChannels);
+//        grabber.setSampleRate(sampleRate);
         grabber.start();
 
         return this;
